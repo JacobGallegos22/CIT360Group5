@@ -35,7 +35,7 @@ public class Main {
         //Print out invoice numbers
         System.out.println(invoiceNumbers);
 
-        //Do we have invoice 10x03
+        //Check for invoice 10x03
         System.out.println("Do we have invoice 10x03? \n Answer: " + invoiceNumbers.contains("10x03"));
 
 
