@@ -1,144 +1,181 @@
+import com.google.gson.Gson;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
+import com.google.gson.reflect.TypeToken;
+
+import java.awt.*;
+import java.io.*;
+import java.lang.reflect.Type;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.*;
 
 /**
- * This program demonstrates the use of Java Collections specifically List, Set, Map, Tree, and Queue
+ * This program demonstrates the use of HTTP Url connections. It also demonstrates JSON Objects and how they interact
+ * with Java Objects
  * @Author Jacob Gallegos
  */
 
 public class Main {
 
-    public void listExample(ArrayList<String> invoices, LinkedList<String> invoicesLinked) {
-        //Array list more for a simple fast list
-        System.out.println("Array List: " + invoices);
-        System.out.println("Linked List: " + invoicesLinked);
 
-        //Array List you can only add you can't choose to add in the first or beginning
-        invoices.add("phone");
-        //Linkedlist you can add in the begging or end
-        invoicesLinked.addFirst("phone");
-
-
-        System.out.println("New Array List: " + invoices);
-
-        //LinkedList I can add more elements first or last, I can even get the first and last. Making it easier to order
-        //Items but it is more memory extensive
-        System.out.println("New Linked List: " + invoicesLinked);
-
-
-
-
-
-
-    }
-
-    private void setExample(LinkedHashSet<String> invoiceNumbers) {
-        //Print out invoice numbers
-        System.out.println(invoiceNumbers);
-
-        //Check for invoice 10x03
-        System.out.println("Do we have invoice 10x03? \n Answer: " + invoiceNumbers.contains("10x03"));
-
-
-        //How many invoices do we have
-        System.out.println("There are " + invoiceNumbers.size() + " invoices");
-
-        //Lets remove the second invoice
-        invoiceNumbers.remove("10x02");
-
-        System.out.println("Updated Invoice: " + invoiceNumbers);
-
-
-
-    }
-
-    public void mapExample(Map invoices) {
-        System.out.println("Invoices: " + invoices);
-
-        //Find a item name based on the invoice
-        System.out.println("The item with the invoice of 10x01" + invoices.get("10x01"));
-
-    }
-
-    public void queueExample(Queue<String> invoices) {
-        //Queue lets you place objects in order letting you add a queue last in last out
-        System.out.println("Invoices left in queue " + invoices.size());
-        System.out.println("Invoices waiting to get printed" + invoices);
-        String invoice = invoices.remove();
-        System.out.println("printing " + invoice + "...");
-        System.out.println("Up next: " + invoices.peek());
-        System.out.println("Invoices left in queue " + invoices.size());
-        System.out.println("Invoices waiting to get printed" + invoices);
-
-
-    }
-
-    public void treeExample(TreeMap<Integer, String> invoices) {
-        //Trees only let you put things in order. I added the treemap in a different order but they came out in order
-
-        System.out.println("Invoices in order: " + invoices);
-        System.out.println("Invvoices in descending order" + invoices.descendingMap());
-
-
-
-    }
-    public static void main(String[] args) {
-        //Initialize the class
+    public static void main(String[] args) throws Exception {
         Main main = new Main();
-        //Set my collection types
-        LinkedHashSet<String> invoiceNumbers = new LinkedHashSet<>();
-        ArrayList<String> itemArrayList = new ArrayList<>();
-        LinkedList<String> itemLinkedList = new LinkedList<>();
-        Queue<String> invoicesToPrint = new LinkedList<>();
-        Map invoices = new HashMap();
-        TreeMap<Integer, String> invoicesTree = new TreeMap<>();
+        System.out.println("=================================");
+        System.out.println("Http Url Get Request\n");
+        main.getRequest();
+        System.out.println("\n================================");
+        System.out.println("Http Url Post Request\n");
+        main.postRequest();
 
-        //For loop to make test data
-        for (int i = 0; i < 5; i++) {
-            invoiceNumbers.add("10x0" + i);
-            invoicesToPrint.add("10x0" + i);
+
+
+
+
+
+    }
+
+    /**
+     * This demonstrates how to take a json object and convert it to a Java Object using GSON
+     * @param response
+     * @Return void
+     */
+
+    private void jsonToObject(StringBuffer response) {
+        ArrayList<Post> posts;
+        Gson gson = new Gson();
+        String jsonStr = response.toString();
+        Type listType = new TypeToken<ArrayList<Post>>() {}.getType();
+        posts = gson.fromJson(jsonStr, listType);
+
+        for (Post post:
+            posts) {
+            System.out.println("Title: " + post.title + "\nBody: " + post.body + "\n") ;
         }
-        //Adding strings to an array list.
-        itemArrayList.add("phone");
-        itemArrayList.add("TV");
-        itemArrayList.add("computer");
-        itemLinkedList.add("phone");
-        itemLinkedList.add("TV");
-        itemLinkedList.add("computer");
 
-        //add objects to the hash set
+    }
 
-        //adding items into the hash map. The first item is the key
+    /**
+     * This demonstrates what to do if we have a bad request
+     * @param e
+     */
+    private void handleBadRequests(Exception e){
+        System.out.println(e.getLocalizedMessage());
+        System.out.println("Looks like the server is down. Please try again.");
 
-        invoices.put("10x01", "Item 1");
-        invoices.put("10x02", "Item 2");
-        invoices.put("10x03", "Item 3");
-        invoices.put("10x04", "Item 4");
-        invoices.put("10x05", "Item 5");
+    }
 
-        //Adding items to the tree map. This is similar to the map but all items will be ordered automatically
-        invoicesTree.put(2, "Item 2");
-        invoicesTree.put(1, "Item 1");
-        invoicesTree.put(4, "Item 4");
-        invoicesTree.put(5, "Item 5");
-        invoicesTree.put(3, "Item 3");
+    /**
+     * This function takes an object and converts it to a json object using Google's Gson
+     * @return JsonObject
+     */
+    private JsonObject objectToJSON() {
+        Post post = new Post();
+        Gson gson = new Gson();
+        post.setBody("Sample and test body");
+        post.setTitle("Test Title");
+        post.setUserId(1);
+        String jsonString = gson.toJson(post);
 
-        //Print results and
-        System.out.println("\n*********************************\n");
-        System.out.println("Invoices in a set: \n");
-        main.setExample(invoiceNumbers);
-        System.out.println("\n*********************************\n");
-        System.out.println("Invoices in a map: \n");
-        main.mapExample(invoices);
-        System.out.println("\n*********************************\n");
-        System.out.println("Invoices in a list: \n");
-        main.listExample(itemArrayList, itemLinkedList);
-        System.out.println("\n*********************************\n");
-        System.out.println("Invoices in a queue: \n");
-        main.queueExample(invoicesToPrint);
-        System.out.println("\n*********************************\n");
-        System.out.println("Invoices in a tree: \n");
-        main.treeExample(invoicesTree);
+        JsonObject jsonObject = new JsonParser().parse(jsonString).getAsJsonObject();
+        return jsonObject;
 
+    }
+
+    /**
+     * This sends a post request with Json and displays the response
+     */
+    private void postRequest() {
+        // This part of the code is largely based off of the Mkyong.com tutorial.
+        // https://www.mkyong.com/java/how-to-send-http-request-getpost-in-java/
+        String url = "https://jsonplaceholder.typicode.com/posts";
+
+        //I wrap this code in a try catch so that if we get a bad request it doesn't crash the system
+        try{
+            //Define the url and start the connection
+            URL obj = new URL(url);
+            HttpURLConnection con = (HttpURLConnection) obj.openConnection();
+            con.setRequestMethod("POST");
+            con.setRequestProperty("Content-Type", "application/json");
+            String jsonStr = objectToJSON().toString();
+            con.setDoOutput(true);
+            DataOutputStream wr = new DataOutputStream(con.getOutputStream());
+            wr.writeBytes(jsonStr);
+            wr.flush();
+            wr.close();
+
+            //add request header
+            int responseCode = con.getResponseCode();
+            System.out.println("\nSending 'POST' request to URL : " + url);
+            System.out.println("Post parameters: " + jsonStr);
+            System.out.println("Response Code : " + responseCode);
+
+            //get the input string
+            BufferedReader in = new BufferedReader(
+                new InputStreamReader(con.getInputStream()));
+            String inputLine;
+            StringBuffer response = new StringBuffer();
+
+            while ((inputLine = in.readLine()) != null) {
+                response.append(inputLine);
+            }
+            in.close();
+
+            //convert the response to json.
+            System.out.println(response.toString());
+
+        } catch (Exception e){
+            handleBadRequests(e);
+
+        }
+
+    }
+
+    /**
+     * This function sends a get request and then sends the json array to be converted into an array list of objects
+     */
+    private void getRequest() {
+        // This part of the code is largely based off of the Mkyong.com tutorial.
+        // https://www.mkyong.com/java/how-to-send-http-request-getpost-in-java/
+
+        final String USER_AGENT = "Mozilla/5.0";
+
+        //The location of my request
+        String url = "https://jsonplaceholder.typicode.com/posts";
+
+        //I wrap this code in a try catch so that if we get a bad request it doesn't crash the system
+        try{
+            //Define the url and start the connection
+            URL obj = new URL(url);
+            HttpURLConnection con = (HttpURLConnection) obj.openConnection();
+            con.setRequestMethod("GET");
+            //add request header
+            con.setRequestProperty("User-Agent", USER_AGENT);
+            int responseCode = con.getResponseCode();
+            System.out.println("\nSending 'GET' request to URL : " + url);
+            System.out.println("Response Code : " + responseCode);
+
+            //get the input string
+            BufferedReader in = new BufferedReader(
+                new InputStreamReader(con.getInputStream()));
+            String inputLine;
+            StringBuffer response = new StringBuffer();
+
+            while ((inputLine = in.readLine()) != null) {
+                response.append(inputLine);
+            }
+            in.close();
+
+            //convert the response to json.
+            jsonToObject(response);
+
+
+
+
+        } catch (Exception e){
+            handleBadRequests(e);
+
+        }
 
     }
 
