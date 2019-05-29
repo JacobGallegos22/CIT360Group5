@@ -1,11 +1,19 @@
+import sun.jvm.hotspot.memory.Generation;
+
+import javax.persistence.*;
+
 /**
- * this is the model part of the MVC this is where all of the data is stored.
+ * This model matches the database person table which allows hibernate to mapp it to the database
  */
 
+
+
 public class Person {
+
+  private Integer id;
+
   private String firstName;
   private String lastName;
-
   public String getFirstName() {
     return firstName;
   }
@@ -20,5 +28,13 @@ public class Person {
 
   public void setLastName(String lastName) {
     this.lastName = lastName;
+  }
+
+  public Integer getId() {
+    return id;
+  }
+
+  public void setId(Integer id) {
+    this.id = id;
   }
 }
