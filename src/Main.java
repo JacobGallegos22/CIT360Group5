@@ -13,26 +13,40 @@ import java.net.URL;
 import java.util.*;
 
 /**
- * This program demonstrates Hibernate
- * This program relies on teh tutorial found at
- * https://www.tutorialspoint.com/hibernate/hibernate_examples.htm
- * @Author Jacob Gallegos
+ * This program is based of of the Github of Doing More With Java
+ * I modified the code to simply add one request to list a person implementing the
+ * application controller
  */
 
 public class Main {
 
     public static void main(String[] args) throws Exception {
+
+        //Create a new person
+        Person person = new Person();
+        person.setFirstName("John");
+        person.setLastName("Doe");
+        //Create a new instance of the ApplicationController
+        ApplicationController ac = new ApplicationController();
+
+        //Call the controller
+        ac.handleRequest("list", person);
+
+
+
+
+
+
 //        PersonController pc = new PersonController();
 //        pc.menu();
-
         //Create the session and intialize the Person Class
-        SessionFactory factory = new Configuration().configure().buildSessionFactory();
-        HibernatePerson hp = new HibernatePerson(factory);
+//        SessionFactory factory = new Configuration().configure().buildSessionFactory();
+//        HibernatePerson hp = new HibernatePerson(factory);
 
         //Call the function to add someone to the database
-        Integer id = hp.addPerson("John", "Doe");
-
-        System.out.println("You successfully added " + id);
+//        Integer id = hp.addPerson("John", "Doe");
+//
+//        System.out.println("You successfully added " + id);
 
 
     }

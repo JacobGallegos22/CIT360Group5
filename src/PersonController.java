@@ -1,9 +1,10 @@
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.Scanner;
 
 /**
- * This is the controller part of the MVC model. THis handles all of the logic. we take data out of the module and manipulate it
+ * This is the controller part of the MVC model. This handles all of the logic. we take data out of the module and manipulate it
  */
 
 public class PersonController {
@@ -96,4 +97,6 @@ public class PersonController {
 
     } while (!quit);
   }
+
+
 }
