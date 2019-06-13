@@ -4,6 +4,9 @@ import com.google.gson.JsonParser;
 import com.google.gson.reflect.TypeToken;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
+import org.junit.runner.JUnitCore;
+import org.junit.runner.Result;
+import org.junit.runner.notification.Failure;
 
 import java.awt.*;
 import java.io.*;
@@ -22,15 +25,25 @@ public class Main {
 
     public static void main(String[] args) throws Exception {
 
-        //Create a new person
-        Person person = new Person();
-        person.setFirstName("John");
-        person.setLastName("Doe");
-        //Create a new instance of the ApplicationController
-        ApplicationController ac = new ApplicationController();
+        Result result = JUnitCore.runClasses(JUnitTest.class);
 
-        //Call the controller
-        ac.handleRequest("list", person);
+        for(Failure failure: result.getFailures()) {
+            System.out.println(failure.toString());
+        }
+        System.out.println("These Tests were successful==" + result.wasSuccessful());
+
+
+
+
+        //Create a new person
+//        Person person = new Person();
+//        person.setFirstName("John");
+//        person.setLastName("Doe");
+//        //Create a new instance of the ApplicationController
+//        ApplicationController ac = new ApplicationController();
+//
+//        //Call the controller
+//        ac.handleRequest("list", person);
 
 
 
