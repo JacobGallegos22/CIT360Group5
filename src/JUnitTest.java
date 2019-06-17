@@ -1,30 +1,28 @@
 import junit.framework.TestCase;
 import org.junit.Test;
+import static org.hamcrest.CoreMatchers.*;
 
 import static org.junit.Assert.*;
 
 public class JUnitTest {
   @Test
   public void assertTests() {
-    String test1 = "JUnitTest";
-    String test2 = "JUnitTest";
-    String test3 = "JUnitTest";
-    String test4 = "JUnitTest";
-    String test5 = "JUnitTest5";
-    int test6 = 1;
-    int test7 = 2;
-    String test8 = null;
+    JUnitCalculations ju = new JUnitCalculations();
+    String responseString = "The first value needs to be greater than the second value";
+
     int[] testArray1= {1,2,3,4,5};
     int[] testArray2 = {1,2,3,4,5};
 
 
-    assertEquals(test1, test2);
-    assertSame(test3, test4);
-    assertNotSame(test1, test5);
-    assertNotNull(test8);
-
-    assertTrue(test6 < test7);
+    assertEquals(ju.getNames(2), "Sally");
+    assertSame(ju.multiplyNumbers(2,5), 10);
+    assertNotSame(ju.getNames(0), "Bob");
+    assertNull(ju.getNames(3));
+    assertNotNull(ju.getNames(2));
+    assertFalse("1 is greater than 2", ju.isGreaterThan(1,2));
+    assertTrue("2 is greater than 1", ju.isGreaterThan(2,1));
     assertArrayEquals(testArray1, testArray2);
+    assertThat(responseString, anyOf(containsString("value")));
 
   }
 

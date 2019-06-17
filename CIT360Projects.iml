@@ -22,5 +22,7 @@
     <orderEntry type="library" name="Hibernate 5.4.2-5.4.2" level="project" />
     <orderEntry type="library" name="mysql:mysql-connector-java:5.1.39" level="project" />
     <orderEntry type="library" name="junit:junit:4.11" level="project" />
+    <orderEntry type="library" name="javax.servlet.jsp:javax.servlet.jsp-api:2.3.3" level="project" />
+    <orderEntry type="library" name="org.hamcrest:hamcrest-library:2.1" level="project" />
   </component>
 </module>
