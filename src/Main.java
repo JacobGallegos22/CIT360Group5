@@ -16,21 +16,14 @@ import java.net.URL;
 import java.util.*;
 
 /**
- * This program is based of of the Github of Doing More With Java
- * I modified the code to simply add one request to list a person implementing the
- * application controller
+ *
  */
 
 public class Main {
 
     public static void main(String[] args) throws Exception {
-
-        Result result = JUnitCore.runClasses(JUnitTest.class);
-
-        for(Failure failure: result.getFailures()) {
-            System.out.println(failure.toString());
-        }
-        System.out.println("These Tests were successful==" + result.wasSuccessful());
+        AtomicVariablesExample av = new AtomicVariablesExample();
+        av.playPingPong();
 
 
 
