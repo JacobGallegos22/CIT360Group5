@@ -1,3 +1,7 @@
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
+
 /**
  * this example is based off of the tutorial found here
  * https://www.youtube.com/watch?v=IQSbIOKhC4g
@@ -7,8 +11,13 @@ public class AtomicVariablesExample {
   private volatile int val = 0;
   private int MAX = 30;
 
+
   public void playPingPong() {
-    new Thread(() -> {
+    Thread t1 = new Thread(new PingRunnable());
+    Thread t2 = new Thread(new PingRunnable());
+    Thread t3 = new Thread(new PingRunnable());
+
+     new Thread(() -> {
       for (int lv = val; lv < MAX; )
         if(lv != val) {
           System.out.println("pong(" + val + ")");
@@ -29,6 +38,16 @@ public class AtomicVariablesExample {
       }
 
     }).start();
+
+    ExecutorService executorService = Executors.newFixedThreadPool(3);
+
+    executorService.execute(t1::start);
+    executorService.execute(t2::start);
+    executorService.execute(t3::start);
+
+
+
+
 
 
   }
